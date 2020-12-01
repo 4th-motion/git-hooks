@@ -47,6 +47,10 @@ const copyFile = (fileName, lastFile = false) => {
   })
 }
 
+const getKeyByValue = (object, value) => {
+  return object ? Object.keys(object).find((key) => object[key] === value) : null
+}
+
 const installGitHooks = () => {
   const hasGitFolder = fs.existsSync(path.join(process.cwd(), GIT_FOLDERNAME))
   const hasGitHookFolder = fs.existsSync(path.join(process.cwd(), GIT_HOOKS_FOLDERNAME))
@@ -67,7 +71,10 @@ const installGitHooks = () => {
 
   // add script `postinstall` to package.json
   const packagePath = path.join(process.cwd(), PACKAGE_FILENAME)
+  const packageLocalPath = path.join(__dirname, PACKAGE_FILENAME)
+
   const pkg = JSON.parse(getPackageContent(packagePath))
+  const pkgLocal = JSON.parse(getPackageContent(packageLocalPath))
 
   if (pkg.scripts.postinstall) {
     console.warn(chalk`{bold.yellow [WARNING]} {bold postinstall} in ${PACKAGE_FILENAME} was overwritten.`)
@@ -75,7 +82,7 @@ const installGitHooks = () => {
     console.log(chalk`{bold.magenta [ADDED]  } {bold postinstall} in ${PACKAGE_FILENAME}.`)
   }
 
-  pkg.scripts.postinstall = '4th-git-hooks'
+  pkg.scripts.postinstall = getKeyByValue(pkgLocal.bin, './init.js') || '4th-git-hooks'
 
   // write to package.json
   fs.writeFileSync(packagePath, JSON.stringify(pkg, null, '  '), 'utf-8')
