@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# find all tasks in HOOK_NAME from package.json
+HOOK_NAME='pre-commit'
+TASKS=`(node ./.git/hooks/detectHook.js $HOOK_NAME)`
+TASK_NAMES=($TASKS)
+
+for TASK_NAME in "${TASK_NAMES[@]}"
+do
+  yarn "$TASK_NAME" &>/dev/null
+
+  if [ $? -ne 0 ]; then
+
+    # eslint log
+    if [[ $TASK_NAME == *"js"* ]]; then
+      echo -e ".\n"
+      echo -e "Eslint failed! Run 'yarn lint:js' to display the error, fix your code and try again."
+    fi
+
+    # scss log
+    if [[ $TASK_NAME == *"scss"* ]]; then
+      echo -e ".\n"
+      echo -e "Stylelint failed! Run 'yarn lint:scss' to display the error, fix your code and try again."
+    fi
+
+    exit 1
+  fi
+done
