@@ -5,10 +5,6 @@ const fs = require('fs')
 const path = require('path')
 const chalk = require('chalk')
 
-// scripts and hooks to copy from ./hooks/
-const scripts = ['detectHook.js']
-const hooks = ['pre-commit']
-
 const PACKAGE_FILENAME = 'package.json'
 const HOOKS_FOLDERNAME = 'hooks'
 const GIT_FOLDERNAME = '.git'
@@ -26,7 +22,7 @@ const getPackageContent = (packagePath) => {
   }
 }
 
-const copyFile = (fileName, lastFile = false) => {
+const copyFile = (fileName, lastFile = false, showLog = true) => {
   const src = path.join(__dirname, `${HOOKS_FOLDERNAME}/${fileName}`)
   const dest = path.join(process.cwd(), `${GIT_HOOKS_FOLDERNAME}/${fileName}`)
 
@@ -35,7 +31,7 @@ const copyFile = (fileName, lastFile = false) => {
   fs.copyFile(src, dest, (error) => {
     if (error) {
       console.error(chalk`{bold.red [ERROR]  } could not copy {bold ${fileName}}.`)
-    } else {
+    } else if (showLog) {
       console.log(chalk`{bold.magenta [ADDED]  } git hook {bold ${fileName}}`)
     }
 
@@ -87,10 +83,17 @@ const installGitHooks = () => {
   // write to package.json
   fs.writeFileSync(packagePath, JSON.stringify(pkg, null, '  '), 'utf-8')
 
-  // install git hooks
-  scripts.concat(hooks).forEach((hook, index) => {
+  // hooks to copy from ./hooks/
+  const hooks = ['pre-commit']
+
+  hooks.forEach((hook, index) => {
     copyFile(hook, index === hooks.length - 1)
   })
+
+  // same for scripts
+  const scripts = ['detectHook.js']
+
+  scripts.forEach((script) => copyFile(script))
 }
 
 module.exports = installGitHooks()
