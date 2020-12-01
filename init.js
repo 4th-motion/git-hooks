@@ -84,16 +84,14 @@ const installGitHooks = () => {
   fs.writeFileSync(packagePath, JSON.stringify(pkg, null, '  '), 'utf-8')
 
   // hooks to copy from ./hooks/
-  const hooks = ['pre-commit']
+  const files = fs.readdirSync(path.join(__dirname, HOOKS_FOLDERNAME))
 
-  hooks.forEach((hook, index) => {
-    copyFile(hook, index === hooks.length - 1)
+  files.forEach((fileName, index) => {
+    const isJavascriptFile = fileName.split('.').pop() === 'js'
+
+    // show log information not for js files
+    copyFile(fileName, index === files.length - 1, !isJavascriptFile)
   })
-
-  // same for scripts but dont show log information
-  const scripts = ['detectHook.js']
-
-  scripts.forEach((script) => copyFile(script, null, false))
 }
 
 module.exports = installGitHooks()
