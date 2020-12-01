@@ -1,5 +1,5 @@
 # @4th/git-hooks
-> Easy to set up git hooks that can be shared by your projects.
+> Easy to set up git hooks that can be shared between your projects.
 
 ![Version][version-image]
 ![License][license-image]
