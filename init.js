@@ -90,10 +90,10 @@ const installGitHooks = () => {
     copyFile(hook, index === hooks.length - 1)
   })
 
-  // same for scripts
+  // same for scripts but dont show log information
   const scripts = ['detectHook.js']
 
-  scripts.forEach((script) => copyFile(script))
+  scripts.forEach((script) => copyFile(script, null, false))
 }
 
 module.exports = installGitHooks()
