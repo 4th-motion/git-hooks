@@ -93,7 +93,7 @@ You can edit the files that define the coding standards as needed. You can also 
 Copyright © 2020 by 4th motion GmbH. Released under the [MIT License][license].
 
 [screenshot]: https://assets.4thmotion.com/github/git-hooks/screenshot.jpg
-[version-image]: https://img.shields.io/github/package-json/v/4th-motion/git-hooks
+[version-image]: https://img.shields.io/github/package-json/v/4th-motion/git-hook
 [license-image]: https://img.shields.io/github/license/4th-motion/git-hooks
 [stylelint-image]: https://avatars3.githubusercontent.com/u/10076935?s=200&v=4
 [eslint-image]: https://avatars3.githubusercontent.com/u/6019716?s=200&v=4
