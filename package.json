@@ -1,40 +1,39 @@
 {
-  "name": "@4th/git-hooks",
+  "name": "@4th-motion/git-hooks",
   "description": "Easy to set up git hooks that can be shared by your projects.",
   "version": "1.0.0",
   "main": "init.js",
   "author": "Marco Koenen <mako@4thmotion.com>",
   "license": "MIT",
   "repository": {
-    "url": "https://github.com/4th-motion/git-hooks",
+    "url": "git://github.com/4th-motion/git-hooks.git",
     "type": "git"
   },
   "keywords": [
     "git",
     "git-hooks",
     "pre-commit",
-    "automation",
-    "4th"
+    "automation"
   ],
   "bin": {
     "4th-git-hooks": "./init.js"
   },
   "scripts": {
     "fresh": "rm -rf node_modules; yarn install",
-    "lint:js": "4th-eslint . --color --fix"
+    "lint:js": "4th-eslint ./**/*.js --color --fix --quiet"
   },
   "dependencies": {
     "chalk": "2.4.1"
   },
   "devDependencies": {
-    "@4th/eslint-config": "4th-motion/eslint-config"
+    "@4th-motion/eslint-config": ">= 1"
   },
   "engines": {
     "node": ">= 6"
   },
   "eslintConfig": {
     "extends": [
-      "@4th/eslint-config"
+      "@4th-motion/eslint-config"
     ]
   }
 }

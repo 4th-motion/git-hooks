@@ -1,4 +1,4 @@
-# @4th/git-hooks
+# @4th-motion/git-hooks
 > Easy to set up git hooks that can be shared between your projects.
 
 ![Version][version-image]
@@ -8,7 +8,7 @@ Handle all your git hooks in one place and share them between your projects. Cha
 
 <br>
 
-![Terminal](docs/screenshot.jpg)
+![Terminal][screenshot]
 
 <br>
 
@@ -17,7 +17,7 @@ Handle all your git hooks in one place and share them between your projects. Cha
 Add this package as a devDependency to your project:
 
 ```
-yarn add --dev @4th/git-hooks
+yarn add --dev @4th-motion/git-hooks
 ```
 
 <br>
@@ -82,9 +82,9 @@ You can edit the files that define the coding standards as needed. You can also 
 
 ## Related projects
 
-@4th/eslint-config | @4th/stylelint-config
+@4th-motion/eslint-config | @4th-motion/stylelint-config
 :-------------------------|:-------------------------
-[![@4th/eslint-config][eslint-image]][eslint-config] | [![@4th/stylelint-config][stylelint-image]][stylelint-config]
+[![@4th-motion/eslint-config][eslint-image]][eslint-config] | [![@4th-motion/stylelint-config][stylelint-image]][stylelint-config]
 
 <br>
 
@@ -92,12 +92,11 @@ You can edit the files that define the coding standards as needed. You can also 
 
 Copyright © 2020 by 4th motion GmbH. Released under the [MIT License][license].
 
+[screenshot]: https://assets.4thmotion.com/github/git-hooks/screenshot.jpg
 [version-image]: https://img.shields.io/github/package-json/v/4th-motion/git-hooks
 [license-image]: https://img.shields.io/github/license/4th-motion/git-hooks
 [stylelint-image]: https://avatars3.githubusercontent.com/u/10076935?s=200&v=4
 [eslint-image]: https://avatars3.githubusercontent.com/u/6019716?s=200&v=4
 [stylelint-config]: https://github.com/4th-motion/stylelint-config
 [eslint-config]: https://github.com/4th-motion/eslint-config
-[.editorconfig]: .editorconfig
-[.prettierrc.js]: .prettierrc.js
-[license]: LICENSE.md
+[license]: /LICENSE.md
