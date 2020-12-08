@@ -40,6 +40,8 @@ Now you can specify the tasks to be performed on a particular hook. The tasks mu
 }
 ```
 
+_Note that the `commit-msg` hook is always executed. This ensures that commits can only be pushed with certain keywords (e.g. `feat`, `fix`, …) and never to the master branch. If you do not want to activate this hook, just remove it from the `hooks/` folder._
+
 <br>
 
 ## Behind the scenes

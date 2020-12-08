@@ -1,0 +1,25 @@
+#!/bin/bash
+
+MESSAGE="`cat .git/COMMIT_EDITMSG`";
+BRANCH="$(git rev-parse --abbrev-ref HEAD)";
+REGEX='((CU-)([A-Za-z0-9]+)|((feat|fix|refactor|test|docs|revert|bump|chore|i18n)(((\w{0,15})))?))(:.\S.*)';
+
+if ! grep -iqE "$REGEX" <<< "${MESSAGE}"; then
+  echo -e "Aborting commit. Your commit message format is invalid. Valid commit messages are: \n"
+  echo "CU-*: a commit which references a Clickup task"
+  echo "feat: a new feature"
+  echo "fix: a bug fix"
+  echo "refactor: a code change that neither fixes a bug nor adds a feature"
+  echo "test: adds missing test or changes existing test"
+  echo "docs: documentation changes"
+  echo "revert: reverts a previous commit"
+  echo "bump: increases version"
+  echo "chore: other changes that do not modify source or test files"
+  echo "i18n: translation changes"
+  exit 1
+fi
+
+if [ "$BRANCH" = "master" ]; then
+  echo "You can't commit directly to master branch."
+  exit 1
+fi
