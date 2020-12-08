@@ -17,7 +17,7 @@ const getPackageContent = (packagePath) => {
   } catch (error) {
     if (error.code === 'ENOENT') {
       console.error(chalk`{bold.red [ERROR]  } no package.json was found in {underline ${packagePath}}.`)
-      process.exit(1)
+      process.exit(0)
     }
   }
 }
@@ -56,13 +56,13 @@ const installGitHooks = () => {
     console.error(
       chalk`{bold.red [ERROR]  } could not install git hooks, because this folder is not a github repository.`
     )
-    process.exit(1)
+    process.exit(0)
   }
 
   // check if hooks are available
   if (!fs.existsSync(path.join(__dirname, HOOKS_FOLDERNAME))) {
     console.error(chalk`{bold.red [ERROR]  } no git hooks found to install.`)
-    process.exit(1)
+    process.exit(0)
   }
 
   // add script `postinstall` to package.json
