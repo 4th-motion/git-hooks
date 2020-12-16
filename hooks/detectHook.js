@@ -16,8 +16,6 @@ if (fs.existsSync(packagePath) && fs.statSync(packagePath).isFile()) {
     } else if (Array.isArray(pkg.git[hook])) {
       hooks.push(...pkg.git[hook])
     }
-  } else {
-    console.log(pkg.git[hook])
   }
 
   if (hooks.length > 0) {
