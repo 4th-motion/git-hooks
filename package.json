@@ -1,7 +1,7 @@
 {
   "name": "@4th-motion/git-hooks",
   "description": "Easy to set up git hooks that can be shared by your projects.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "init.js",
   "author": "Marco Koenen <mako@4thmotion.com>",
   "license": "MIT",
