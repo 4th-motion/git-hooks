@@ -56,13 +56,15 @@ const installGitHooks = () => {
     console.error(
       chalk`{bold.red [ERROR]  } could not install git hooks, because this folder is not a github repository.`
     )
-    process.exit(0)
+
+    // do not exit the process but stop here
+    // otherwise vercel build fails
+    return null
   }
 
   // check if hooks are available
   if (!fs.existsSync(path.join(__dirname, HOOKS_FOLDERNAME))) {
     console.error(chalk`{bold.red [ERROR]  } no git hooks found to install.`)
-    process.exit(0)
   }
 
   // add script `postinstall` to package.json
