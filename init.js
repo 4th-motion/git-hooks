@@ -59,12 +59,13 @@ const installGitHooks = () => {
 
     // do not exit the process but stop here
     // otherwise vercel build fails
-    return null
+    return
   }
 
   // check if hooks are available
   if (!fs.existsSync(path.join(__dirname, HOOKS_FOLDERNAME))) {
     console.error(chalk`{bold.red [ERROR]  } no git hooks found to install.`)
+    return
   }
 
   // add script `postinstall` to package.json
