@@ -44,6 +44,28 @@ _Note that the `commit-msg` hook is always executed. This ensures that commits c
 
 <br>
 
+### Commit messages
+
+Commit subjects follow [Conventional Commits](https://www.conventionalcommits.org/) with an optional lowercase scope and breaking-change marker:
+
+```
+fix: preserve task output
+fix(backend): preserve task output
+feat(api)!: remove a legacy endpoint
+```
+
+Supported types are `build`, `bump`, `chore`, `ci`, `docs`, `feat`, `fix`, `i18n`, `perf`, `refactor`, `revert`, `style`, and `test`.
+
+ClickUp references use a separate format and do not accept a scope:
+
+```
+CU-123abc: preserve task output
+```
+
+Only the first line is validated, so commit message bodies and `BREAKING CHANGE:` footers remain supported.
+
+<br>
+
 ## Behind the scenes
 
 The initialization process extends the _package.json_ file as follows:

@@ -1,7 +1,7 @@
 {
   "name": "@4th-motion/git-hooks",
   "description": "Easy to set up git hooks that can be shared by your projects.",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "main": "init.js",
   "author": "Marco Koenen <mako@4thmotion.com>",
   "license": "MIT",
@@ -20,7 +20,8 @@
   },
   "scripts": {
     "fresh": "rm -rf node_modules; yarn install",
-    "lint:js": "4th-eslint ./**/*.js --color --fix --quiet"
+    "lint:js": "4th-eslint ./**/*.js --color --fix --quiet",
+    "test": "node tests/pre-commit.test.js && node tests/commit-msg.test.js"
   },
   "dependencies": {
     "chalk": "2.4.1"
