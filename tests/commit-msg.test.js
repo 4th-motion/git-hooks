@@ -104,6 +104,43 @@ try {
     assert.ok(/commit message format is invalid/i.test(result.stderr))
   })
 
+  test('accepts the merge commit created by Git', () => {
+    const gitCommit = (message) =>
+      run('git', [
+        '-c',
+        'user.name=Hook Test',
+        '-c',
+        'user.email=hook@example.com',
+        'commit',
+        '--allow-empty',
+        '-m',
+        message
+      ])
+
+    assert.strictEqual(run('git', ['checkout', '--quiet', '-b', 'feature/merge']).status, 0)
+    assert.strictEqual(gitCommit('feat: add merge source').status, 0)
+    assert.strictEqual(run('git', ['checkout', '--quiet', 'feature/test']).status, 0)
+    assert.strictEqual(gitCommit('fix: diverge from merge source').status, 0)
+
+    const result = run('git', [
+      '-c',
+      'user.name=Hook Test',
+      '-c',
+      'user.email=hook@example.com',
+      'merge',
+      '--no-ff',
+      '--no-edit',
+      'feature/merge'
+    ])
+    assert.strictEqual(result.status, 0, result.stderr || result.stdout)
+  })
+
+  test('rejects a merge message outside of a merge', () => {
+    const result = runHook("Merge branch 'feature/merge'")
+    assert.strictEqual(result.status, 1)
+    assert.ok(/commit message format is invalid/i.test(result.stderr))
+  })
+
   test('rejects commits directly to master', () => {
     const renameResult = run('git', ['branch', '-m', 'master'])
     assert.strictEqual(renameResult.status, 0)

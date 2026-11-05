@@ -12,7 +12,12 @@ BRANCH=$(git symbolic-ref --quiet --short HEAD 2>/dev/null)
 CONVENTIONAL_REGEX='^(build|bump|chore|ci|docs|feat|fix|i18n|perf|refactor|revert|style|test)(\([a-z0-9][a-z0-9._/-]*\))?!?: [^[:space:]].*$'
 CLICKUP_REGEX='^CU-[A-Za-z0-9]+: [^[:space:]].*$'
 
-if [[ ! $MESSAGE =~ $CONVENTIONAL_REGEX ]] && [[ ! $MESSAGE =~ $CLICKUP_REGEX ]]; then
+# Merge commits from git pull/merge keep Git's own "Merge ..." message
+if git rev-parse --quiet --verify MERGE_HEAD >/dev/null; then
+  IS_MERGE=1
+fi
+
+if [ -z "$IS_MERGE" ] && [[ ! $MESSAGE =~ $CONVENTIONAL_REGEX ]] && [[ ! $MESSAGE =~ $CLICKUP_REGEX ]]; then
   cat >&2 <<'ERROR_MESSAGE'
 Your commit message format is invalid.
 
