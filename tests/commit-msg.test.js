@@ -46,7 +46,14 @@ try {
     'feat(api-client)!: remove legacy endpoint',
     'refactor(content_api): simplify parser',
     'CU-123abc: preserve task output',
-    'docs(readme): document scopes\n\nAdditional context.'
+    'docs(readme): document scopes\n\nAdditional context.',
+    "Merge branch 'develop' of https://github.com/4th-motion/vhs-Sprachpruefungen into develop",
+    "Merge remote-tracking branch 'origin/develop' into develop",
+    'Merge pull request #12 from 4th-motion/feature/test',
+    'Revert "fix(backend): preserve task output"\n\nThis reverts commit 0123456789abcdef.',
+    'fixup! fix(backend): preserve task output',
+    'squash! fix(backend): preserve task output',
+    'amend! fix(backend): preserve task output'
   ]
 
   validMessages.forEach((message) => {
@@ -64,7 +71,14 @@ try {
     'feature(backend): preserve task output',
     'CU-123(backend): preserve task output',
     'CU-123: ',
-    'prefix fix(backend): preserve task output'
+    'prefix fix(backend): preserve task output',
+    'Merged stuff',
+    'merge: x',
+    'Merge',
+    'Reverted something',
+    'Revert something',
+    'fixup: something',
+    'fixup!something'
   ]
 
   invalidMessages.forEach((message) => {
@@ -135,10 +149,55 @@ try {
     assert.strictEqual(result.status, 0, result.stderr || result.stdout)
   })
 
-  test('rejects a merge message outside of a merge', () => {
-    const result = runHook("Merge branch 'feature/merge'")
+  test('accepts the revert commit created by Git', () => {
+    fs.writeFileSync(path.join(fixtureRoot, 'revert.txt'), 'revert me\n', 'utf8')
+    assert.strictEqual(run('git', ['add', 'revert.txt']).status, 0)
+    const commitResult = run('git', [
+      '-c',
+      'user.name=Hook Test',
+      '-c',
+      'user.email=hook@example.com',
+      'commit',
+      '-m',
+      'feat: add file to revert'
+    ])
+    assert.strictEqual(commitResult.status, 0, commitResult.stderr || commitResult.stdout)
+
+    const result = run('git', [
+      '-c',
+      'user.name=Hook Test',
+      '-c',
+      'user.email=hook@example.com',
+      'revert',
+      '--no-edit',
+      'HEAD'
+    ])
+    assert.strictEqual(result.status, 0, result.stderr || result.stdout)
+  })
+
+  test('accepts the fixup commit created by Git', () => {
+    const result = run('git', [
+      '-c',
+      'user.name=Hook Test',
+      '-c',
+      'user.email=hook@example.com',
+      'commit',
+      '--allow-empty',
+      '--fixup',
+      'HEAD'
+    ])
+    assert.strictEqual(result.status, 0, result.stderr || result.stdout)
+  })
+
+  test('rejects Git generated messages on master', () => {
+    assert.strictEqual(run('git', ['checkout', '--quiet', '-b', 'master']).status, 0)
+
+    const result = runHook("Merge branch 'develop' into master")
     assert.strictEqual(result.status, 1)
-    assert.ok(/commit message format is invalid/i.test(result.stderr))
+    assert.ok(/directly to master/.test(result.stderr))
+
+    assert.strictEqual(run('git', ['checkout', '--quiet', 'feature/test']).status, 0)
+    assert.strictEqual(run('git', ['branch', '-D', 'master']).status, 0)
   })
 
   test('rejects commits directly to master', () => {
